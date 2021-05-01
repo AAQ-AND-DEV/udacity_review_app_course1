@@ -2,6 +2,7 @@ package com.aaqanddev.jwdnd.c1.review;
 
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Locale;
 
 @Service
@@ -9,7 +10,6 @@ public class MessageService {
     private String message;
 
     public MessageService(String message){
-        System.out.println("messageService bean created");
         this.message = message;
     }
 
@@ -19,5 +19,10 @@ public class MessageService {
 
     public String lowercase(){
         return message.toLowerCase(Locale.ROOT);
+    }
+
+    @PostConstruct
+    public void postConstruct(){
+        System.out.println("messageService bean created");
     }
 }
