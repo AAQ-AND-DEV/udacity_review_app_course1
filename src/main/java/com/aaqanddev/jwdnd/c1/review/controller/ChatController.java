@@ -59,4 +59,7 @@ public class ChatController {
     public void postConstruct(){
         System.out.println("chatcontroller instantiated");
     }
+
+    //TODO could put the @ModelAttribute("allMessageTypes") here,
+    //return an array of Enum objects? or just simple Strings
 }

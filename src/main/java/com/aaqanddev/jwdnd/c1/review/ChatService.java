@@ -14,6 +14,7 @@ public class ChatService {
 
     private List<ChatMessage> messages;
 
+    //TODO can remove this ctor, put in postConstruct
     public ChatService(List<ChatMessage> messages){
         this.messages = messages;
     }
@@ -26,6 +27,7 @@ public class ChatService {
 //        return message.toLowerCase(Locale.ROOT);
 //    }
 
+    //TODO could acccept a whole ChatForm, and do the switch here to process
     public void addMessage(ChatMessage chatMsg) {
         messages.add(chatMsg);
     }
@@ -34,6 +36,7 @@ public class ChatService {
         return new ArrayList<>(this.messages);
     }
 
+    //TODO put messages instantiation here
     @PostConstruct
     public void postConstruct(){
         System.out.println("messageService bean created");

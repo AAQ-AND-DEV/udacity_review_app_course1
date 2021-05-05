@@ -15,6 +15,7 @@
     <input id="messageText" type="text" th:field="*{msg}">
     <label for="messageType">Message Type: </label>
     <select id="messageType" th:field="*{type}">
+    <--TODO change to loop over enum?-->
         <option selected value="0">Say</option>
         <option value="1">Shout</option>
         <option value="2">Whisper</option>
