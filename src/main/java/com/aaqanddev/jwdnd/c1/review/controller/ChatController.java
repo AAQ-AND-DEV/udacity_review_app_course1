@@ -1,12 +1,14 @@
 package com.aaqanddev.jwdnd.c1.review.controller;
 
+import com.aaqanddev.jwdnd.c1.review.security.IAuthFacade;
+import com.aaqanddev.jwdnd.c1.review.service.AuthenticationService;
 import com.aaqanddev.jwdnd.c1.review.service.ChatService;
 import com.aaqanddev.jwdnd.c1.review.model.ChatForm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.Locale;
@@ -14,7 +16,16 @@ import java.util.Locale;
 @Controller
 public class ChatController {
 
-    private ChatService chatService;
+    private final ChatService chatService;
+    @Autowired
+    private IAuthFacade authFacade;
+
+    @RequestMapping(value="/username", method= RequestMethod.GET)
+    @ResponseBody
+    public String currentUserNameSimple(){
+        Authentication auth = authFacade.getAuthentication();
+        return auth.getName();
+    }
 
     public ChatController(ChatService chatService) {
         this.chatService = chatService;
@@ -30,9 +41,14 @@ public class ChatController {
     @PostMapping("/chat")
     public String postChatPage(@ModelAttribute("chatForm") ChatForm chatForm, Model model){
 
-        //TODO fix this to use mapping
+        //get username of loggin-in user via AuthFacade
+        String username = currentUserNameSimple();
+        //set username on chatForm
+        chatForm.setUsername(username);
+        //chat service now uses mapping to insert to db
         chatService.addMessage(chatForm);
         chatForm.setMsg("");
+        // updating messages for view after insert
         model.addAttribute("msgList", chatService.getMessages());
         return "chat";
     }

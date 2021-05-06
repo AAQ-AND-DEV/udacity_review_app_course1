@@ -1,5 +1,6 @@
 package com.aaqanddev.jwdnd.c1.review.service;
 
+import com.aaqanddev.jwdnd.c1.review.mapper.MessageMapper;
 import com.aaqanddev.jwdnd.c1.review.model.ChatForm;
 import com.aaqanddev.jwdnd.c1.review.model.ChatMessage;
 import org.springframework.stereotype.Service;
@@ -11,11 +12,16 @@ import java.util.Locale;
 
 @Service
 public class ChatService {
+
     private String message;
-
     private List<ChatMessage> messages;
+    private MessageMapper msgMapper;
 
-//    public String uppercase(){
+    public ChatService(MessageMapper msgMapper) {
+        this.msgMapper = msgMapper;
+    }
+
+    //    public String uppercase(){
 //        return message.toUpperCase(Locale.ROOT);
 //    }
 //
@@ -41,17 +47,17 @@ public class ChatService {
                 break;
             }
         }
-        //TODO hardcoding id here -- when transition to db, will attain id from insert
-        messages.add(new ChatMessage(-1, chatForm.getUsername(), alteredMsg));
+        // attain id from insert (do anything with it?)
+        int id = msgMapper.insertMessage(new ChatMessage(null, chatForm.getUsername(), alteredMsg));
     }
 
     public List<ChatMessage> getMessages(){
-        return new ArrayList<>(this.messages);
+        return new ArrayList<>(msgMapper.getMessages());
     }
 
     @PostConstruct
     public void postConstruct(){
         System.out.println("messageService bean created");
-        this.messages = new ArrayList<>();
+        this.messages = msgMapper.getMessages();
     }
 }

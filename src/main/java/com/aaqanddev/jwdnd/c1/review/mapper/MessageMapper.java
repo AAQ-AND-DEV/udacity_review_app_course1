@@ -14,7 +14,7 @@ public interface MessageMapper {
     @Select("SELECT * FROM MESSAGES WHERE messageid=#{msgId}")
     ChatMessage getMessageById(Integer msgId);
 
-    @Insert("INSERT INTO MESSAGES(username, messagetext) VALUES(#{username), #{messagetext}")
+    @Insert("INSERT INTO MESSAGES(username, messagetext) VALUES(#{username}, #{messagetext})")
     @Options(useGeneratedKeys = true, keyProperty = "messageid")
     int insertMessage(ChatMessage message);
 

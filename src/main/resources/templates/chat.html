@@ -9,8 +9,9 @@
 </head>
 <body>
 <form th:action="@{/chat}" method="post" th:object="${chatForm}">
-    <label for="username">Username:</label>
-    <input id="username" type="text" th:field="*{username}">
+    <!-- now relying on Auth to provide username -->
+    <!--    <label for="username">Username:</label>-->
+    <!--    <input id="username" type="text" th:field="*{username}">-->
     <label for="messageText">Message Text:</label>
     <input id="messageText" type="text" th:field="*{msg}">
     <label for="messageType">Message Type: </label>
