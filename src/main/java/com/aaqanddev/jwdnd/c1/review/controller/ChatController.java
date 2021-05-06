@@ -1,14 +1,12 @@
 package com.aaqanddev.jwdnd.c1.review.controller;
 
-import com.aaqanddev.jwdnd.c1.review.ChatService;
+import com.aaqanddev.jwdnd.c1.review.service.ChatService;
 import com.aaqanddev.jwdnd.c1.review.model.ChatForm;
-import com.aaqanddev.jwdnd.c1.review.model.ChatMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.PostConstruct;
 import java.util.Locale;
@@ -48,7 +46,8 @@ public class ChatController {
                 break;
             }
         }
-        chatService.addMessage(new ChatMessage(chatForm.getUsername(), alteredMsg));
+        //TODO fix this to use mapping
+        //chatService.addMessage(new ChatMessage(chatForm.getUsername(), alteredMsg));
         chatForm.setMsg("");
         chatForm.setUsername("");
         model.addAttribute("msgList", chatService.getMessages());

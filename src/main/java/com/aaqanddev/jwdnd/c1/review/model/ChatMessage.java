@@ -1,12 +1,22 @@
 package com.aaqanddev.jwdnd.c1.review.model;
 
 public class ChatMessage {
+    private Integer messageid;
     private String username;
-    private String msg;
+    private String messagetext;
 
-    public ChatMessage(String username, String alteredMsg) {
+    public ChatMessage(Integer messageid, String username, String messagetext) {
+        this.messageid = messageid;
         this.username = username;
-        this.msg = alteredMsg;
+        this.messagetext = messagetext;
+    }
+
+    public Integer getMessageid() {
+        return messageid;
+    }
+
+    public void setMessageid(Integer messageid) {
+        this.messageid = messageid;
     }
 
     public String getUsername() {
@@ -17,16 +27,16 @@ public class ChatMessage {
         this.username = username;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessagetext() {
+        return messagetext;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessagetext(String messagetext) {
+        this.messagetext = messagetext;
     }
 
     @Override
     public String toString() {
-        return username + ": " + msg;
+        return username + ": " + messagetext;
     }
 }

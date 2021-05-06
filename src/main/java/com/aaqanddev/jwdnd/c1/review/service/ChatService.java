@@ -1,4 +1,4 @@
-package com.aaqanddev.jwdnd.c1.review;
+package com.aaqanddev.jwdnd.c1.review.service;
 
 import com.aaqanddev.jwdnd.c1.review.model.ChatMessage;
 import org.springframework.stereotype.Service;
