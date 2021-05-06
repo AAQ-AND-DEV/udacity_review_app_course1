@@ -1,5 +1,6 @@
 package com.aaqanddev.jwdnd.c1.review.service;
 
+import com.aaqanddev.jwdnd.c1.review.model.ChatForm;
 import com.aaqanddev.jwdnd.c1.review.model.ChatMessage;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,6 @@ public class ChatService {
 
     private List<ChatMessage> messages;
 
-    //TODO can remove this ctor, put in postConstruct
-    public ChatService(List<ChatMessage> messages){
-        this.messages = messages;
-    }
-
 //    public String uppercase(){
 //        return message.toUpperCase(Locale.ROOT);
 //    }
@@ -27,18 +23,35 @@ public class ChatService {
 //        return message.toLowerCase(Locale.ROOT);
 //    }
 
-    //TODO could acccept a whole ChatForm, and do the switch here to process
-    public void addMessage(ChatMessage chatMsg) {
-        messages.add(chatMsg);
+    public void addMessage(ChatForm chatForm) {
+        int type = chatForm.getType();
+        String currMsg = chatForm.getMsg();
+        String alteredMsg = currMsg;
+        //0 - say, 1- shout, 2 -whisper
+        switch (type) {
+            case 0 -> {
+                break;
+            }
+            case 1 -> {
+                alteredMsg = currMsg.toUpperCase(Locale.ROOT);
+                break;
+            }
+            case 2 -> {
+                alteredMsg = currMsg.toLowerCase(Locale.ROOT);
+                break;
+            }
+        }
+        //TODO hardcoding id here -- when transition to db, will attain id from insert
+        messages.add(new ChatMessage(-1, chatForm.getUsername(), alteredMsg));
     }
 
     public List<ChatMessage> getMessages(){
         return new ArrayList<>(this.messages);
     }
 
-    //TODO put messages instantiation here
     @PostConstruct
     public void postConstruct(){
         System.out.println("messageService bean created");
+        this.messages = new ArrayList<>();
     }
 }

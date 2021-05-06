@@ -29,27 +29,10 @@ public class ChatController {
 
     @PostMapping("/chat")
     public String postChatPage(@ModelAttribute("chatForm") ChatForm chatForm, Model model){
-        int type = chatForm.getType();
-        String currMsg = chatForm.getMsg();
-        String alteredMsg = currMsg;
-        //0 - say, 1- shout, 2 -whisper
-        switch (type) {
-            case 0 -> {
-                break;
-            }
-            case 1 -> {
-                alteredMsg = currMsg.toUpperCase(Locale.ROOT);
-                break;
-            }
-            case 2 -> {
-                alteredMsg = currMsg.toLowerCase(Locale.ROOT);
-                break;
-            }
-        }
+
         //TODO fix this to use mapping
-        //chatService.addMessage(new ChatMessage(chatForm.getUsername(), alteredMsg));
+        chatService.addMessage(chatForm);
         chatForm.setMsg("");
-        chatForm.setUsername("");
         model.addAttribute("msgList", chatService.getMessages());
         return "chat";
     }
