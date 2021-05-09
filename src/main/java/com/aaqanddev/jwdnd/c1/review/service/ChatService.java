@@ -14,7 +14,8 @@ import java.util.Locale;
 public class ChatService {
 
     private String message;
-    private List<ChatMessage> messages;
+    //do not need this messages variable
+    //private List<ChatMessage> messages;
     private MessageMapper msgMapper;
 
     public ChatService(MessageMapper msgMapper) {
@@ -58,6 +59,6 @@ public class ChatService {
     @PostConstruct
     public void postConstruct(){
         System.out.println("messageService bean created");
-        this.messages = msgMapper.getMessages();
+        //this.messages = msgMapper.getMessages();
     }
 }

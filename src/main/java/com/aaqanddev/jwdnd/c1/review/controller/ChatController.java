@@ -41,6 +41,10 @@ public class ChatController {
     @PostMapping("/chat")
     public String postChatPage(@ModelAttribute("chatForm") ChatForm chatForm, Model model){
 
+        //TODO could have passed an Authentication object into this method
+        //Spring provides this object (created when user logs in)
+        //access it by authentication.getName()
+
         //get username of loggin-in user via AuthFacade
         String username = currentUserNameSimple();
         //set username on chatForm

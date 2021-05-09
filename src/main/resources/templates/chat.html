@@ -28,7 +28,7 @@
 <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
     <input hidden type="submit" value="SignOut"/>
 </form>
-<h1 th:each="msg: ${msgList}" th:text="${msg}"></h1>
+<h1 id="outputText" th:each="msg: ${msgList}" th:text="${msg}"></h1>
 <!--<h1>here</h1>-->
 </body>
 </html>
