@@ -15,7 +15,7 @@ public class SignupPage {
     @FindBy(name="username")
     private WebElement username;
 
-    @FindBy(name="pw")
+    @FindBy(name="password")
     private WebElement pw;
 
     @FindBy(id="submit-button")
@@ -31,11 +31,15 @@ public class SignupPage {
     public void setNames(String first, String last){
         firstName.sendKeys(first);
         lastName.sendKeys(last);
+//        firstName.submit();
+//        lastName.submit();
     }
 
     public void setUserAndPW(String user, String pw){
         username.sendKeys(user);
         this.pw.sendKeys(pw);
+//        username.submit();
+//        this.pw.submit();
     }
 
     public void submitSignup(){

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.util.Base64;
 
+//should i add the UserDetailsService interface to this? hoping the bean will get picked up
+//for the MockUserFilter?
 @Service
 public class UserService {
     private final UserMapper userMapper;

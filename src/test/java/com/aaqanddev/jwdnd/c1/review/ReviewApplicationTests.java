@@ -15,58 +15,49 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ReviewApplicationTests {
 
+	//making port static doesn't work
 	@LocalServerPort
 	private int port;
 
-	ChatPage chatPage;
-	LoginPage loginPage;
-	SignupPage signupPage;
+	static ChatPage chatPage;
+	static LoginPage loginPage;
+	static SignupPage signupPage;
 	static WebDriver driver;
+
+	private static String first = "Abe";
+	private static String last = "Bubba";
+	private static String username = "Abbubba";
+	private static String pw = "butters";
 
 	//TODO could probably do login in beforeAll right?
 	//but the username is required accessible in the chatPage test
 	//also may be a problem if we haven't called driver.get, but maybe not
+	//cant seem to access port from static beforeAll() method,
+	// when made port static, didn't populate with a port
 	@BeforeAll
-	public static void beforeAll(){
+	static void beforeAll(){
 		WebDriverManager.chromedriver().setup();
 		driver = new ChromeDriver();
 	}
 
 	@BeforeEach
 	public void beforeEach(){
-		driver.get("http://localhost:" + this.port + "/chat");
 		//(way to init all three by passing driver to another method)
 		//not really necessary
 		chatPage = new ChatPage(driver);
-		loginPage = new LoginPage(driver);
+		System.out.println("port:" + this.port);
+		driver.get("http://localhost:" + this.port + "/signup");
 		signupPage = new SignupPage(driver);
-	}
-
-	@AfterAll
-	public static void afterAll(){ driver.quit();}
-
-	@Test
-	void contextLoads() {
-	}
-
-	@Test
-	public void testInputReadOutput(){
-		//GIVEN /login page opened, nav to signup
-		loginPage.navToSignup();
-		String first = "Abe";
-		String last = "Bubba";
-		String username = "Abbubba";
-		String pw = "butters";
-
 		//wait for signup to load?
 		WebDriverWait wait = new WebDriverWait(driver, 3);
-		WebElement thing = wait.until(webDriver -> webDriver.findElement(By.id("firstName")));
+		WebElement thing = wait.until(webDriver -> webDriver.findElement(By.id("inputFirstName")));
 		//set fields of signup
 		signupPage.setNames(first, last);
 		signupPage.setUserAndPW(username, pw);
@@ -75,15 +66,36 @@ class ReviewApplicationTests {
 		//click link to login page
 		signupPage.navToLogin();
 		//wait for login to load
+		loginPage = new LoginPage(driver);
 		WebDriverWait waitLogin = new WebDriverWait(driver, 3);
-		WebElement thing2 = wait.until(webDriver -> webDriver.findElement(By.id("username")));
+		WebElement thing2 = wait.until(webDriver -> webDriver.findElement(By.id("inputUsername")));
 		//set username pw fields
 		loginPage.setUsername(username);
 		loginPage.setPw(pw);
 		//submit login
 		loginPage.submitLogin();
-		// /Chat page generated
+	}
+
+	@AfterAll
+	public static void afterAll(){
+		driver.quit();
+	}
+
+//	@Test
+//	void contextLoads() {
+//	}
+
+	@Test
+	public void testInputReadOutput(){
+		//GIVEN /login page opened, nav to signup
+		//loginPage.navToSignup();
+		driver.get("http://localhost:" + port + "/chat");
+		// /Chat page generated after BeforeEach (i think)
 		String test = "testing";
+		//await chat page load
+		// looks like the submitLogin function is not resulting in a load of defaultSuccessUrl
+		WebDriverWait waitChat = new WebDriverWait(driver, 3);
+		WebElement thing3 = waitChat.until(webDriver -> webDriver.findElement(By.id("messageText")));
 		//WHEN populate messageText and submit form
 		chatPage.setMessageText(test);
 		chatPage.submitForm();
@@ -92,5 +104,7 @@ class ReviewApplicationTests {
 		assertEquals(username + ": " + test, chatPage.getOutput());
 
 	}
+
+	//@WithMockUser
 
 }
